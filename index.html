@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JoaoPedroDS — Design & Edição</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E0E10;
+    --bg-soft:#161618;
+    --panel:#1C1C1F;
+    --line:#2C2C30;
+    --cream:#F5F1E8;
+    --gray:#8A8A8E;
+    --accent:#39FF6A;
+    --accent-dim:#1c5c34;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--cream);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .display{font-family:'Bebas Neue',sans-serif; letter-spacing:0.02em;}
+
+  /* ===== Frame counter top bar ===== */
+  .topbar{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:18px 32px;
+    background:rgba(14,14,16,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:1.6rem;
+    letter-spacing:0.08em;
+  }
+  .logo span{color:var(--accent);}
+  .nav-links{display:flex; gap:28px; align-items:center;}
+  .nav-links a{
+    color:var(--gray); text-decoration:none; font-size:0.85rem;
+    font-family:'JetBrains Mono',monospace; letter-spacing:0.05em;
+    transition:color .2s;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible{color:var(--cream);}
+  .nav-links a.cta{
+    color:var(--bg); background:var(--accent); padding:8px 16px;
+    border-radius:2px; font-weight:600;
+  }
+  .nav-links a.cta:hover{background:var(--cream);}
+
+  /* ===== Hero ===== */
+  .hero{
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:120px 32px 80px;
+    position:relative;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-eyebrow{
+    font-family:'JetBrains Mono',monospace; color:var(--accent);
+    font-size:0.85rem; letter-spacing:0.15em; margin-bottom:24px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .hero-eyebrow::before{
+    content:''; display:inline-block; width:8px; height:8px;
+    background:var(--accent); border-radius:50%;
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+  .hero h1{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(3.5rem, 12vw, 9rem);
+    line-height:0.95;
+    letter-spacing:0.01em;
+    max-width:1200px;
+  }
+  .hero h1 .outline{
+    color:transparent;
+    -webkit-text-stroke:2px var(--cream);
+  }
+  .hero-sub{
+    margin-top:32px; max-width:560px; color:var(--gray);
+    font-size:1.05rem; line-height:1.7;
+  }
+  .hero-sub strong{color:var(--cream); font-weight:600;}
+  .hero-meta{
+    margin-top:56px; display:flex; gap:48px; flex-wrap:wrap;
+  }
+  .hero-meta div{font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--gray);}
+  .hero-meta .val{display:block; color:var(--cream); font-size:1.4rem; font-family:'Bebas Neue',sans-serif; margin-top:4px; letter-spacing:0.05em;}
+
+  .scroll-hint{
+    position:absolute; bottom:36px; left:32px;
+    font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--gray);
+    display:flex; align-items:center; gap:10px;
+  }
+  .scroll-hint .line{
+    width:1px; height:40px; background:var(--line); position:relative; overflow:hidden;
+  }
+  .scroll-hint .line::after{
+    content:''; position:absolute; top:0; left:0; width:100%; height:30%;
+    background:var(--accent); animation:scrollLine 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollLine{0%{transform:translateY(-100%);}100%{transform:translateY(330%);}}
+
+  /* ===== Section shared ===== */
+  section{padding:100px 32px;}
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    margin-bottom:56px; flex-wrap:wrap; gap:16px;
+    border-bottom:1px solid var(--line); padding-bottom:24px;
+  }
+  .section-tag{
+    font-family:'JetBrains Mono',monospace; color:var(--accent);
+    font-size:0.8rem; letter-spacing:0.15em; margin-bottom:8px; display:block;
+  }
+  .section-head h2{
+    font-family:'Bebas Neue',sans-serif; font-size:clamp(2.2rem,6vw,4rem);
+    letter-spacing:0.02em;
+  }
+  .section-head p{color:var(--gray); max-width:380px; font-size:0.95rem; line-height:1.6;}
+
+  /* ===== Services ===== */
+  .services{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line);
+  }
+  .service{
+    background:var(--bg); padding:48px 40px; position:relative;
+    transition:background .3s;
+  }
+  .service:hover{background:var(--bg-soft);}
+  .service .num{
+    font-family:'JetBrains Mono',monospace; color:var(--accent-dim);
+    font-size:0.85rem; margin-bottom:24px; display:block;
+  }
+  .service h3{
+    font-family:'Bebas Neue',sans-serif; font-size:2.2rem; margin-bottom:16px; letter-spacing:0.02em;
+  }
+  .service p{color:var(--gray); font-size:0.95rem; line-height:1.7; max-width:420px;}
+  .service .tags{margin-top:24px; display:flex; gap:8px; flex-wrap:wrap;}
+  .service .tags span{
+    font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--cream);
+    border:1px solid var(--line); padding:5px 12px; border-radius:100px;
+  }
+
+  /* ===== Showreel (video) ===== */
+  .reel-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  @media (max-width:860px){.reel-grid{grid-template-columns:1fr;}}
+  .reel{
+    position:relative; border:1px solid var(--line); border-radius:4px; overflow:hidden;
+    aspect-ratio:16/9; background:#000;
+  }
+  .reel video{width:100%; height:100%; object-fit:cover; display:block;}
+  .reel-frame{
+    position:absolute; inset:0; pointer-events:none;
+    display:flex; flex-direction:column; justify-content:space-between; padding:20px;
+  }
+  .reel-frame .corner{
+    font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--cream);
+    text-shadow:0 1px 4px rgba(0,0,0,.6);
+    display:flex; justify-content:space-between;
+  }
+  .reel-caption{margin-top:20px; color:var(--gray); font-size:0.9rem; max-width:520px; line-height:1.6;}
+
+  /* ===== Gallery (graphic design) ===== */
+  .gallery{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:16px;
+  }
+  .gallery .item{
+    border:1px solid var(--line); border-radius:4px; overflow:hidden;
+    background:var(--panel); position:relative; aspect-ratio:3/4;
+  }
+  .gallery .item img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease;}
+  .gallery .item:hover img{transform:scale(1.05);}
+  .gallery .item .label{
+    position:absolute; bottom:0; left:0; right:0; padding:16px;
+    background:linear-gradient(transparent, rgba(0,0,0,.85));
+    font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--cream);
+    opacity:0; transition:opacity .3s; letter-spacing:.05em;
+  }
+  .gallery .item:hover .label{opacity:1;}
+  .gallery .item.wide{grid-column:span 2;}
+
+  /* ===== About / process ===== */
+  .about-wrap{
+    display:grid; grid-template-columns:1fr 1.3fr; gap:64px; align-items:start;
+  }
+  .about-wrap .about-left{display:flex; flex-direction:column; gap:32px;}
+  .about-wrap .portrait{
+    width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:4px;
+    border:1px solid var(--line); filter:grayscale(15%);
+  }
+  .about-wrap .big-quote{
+    font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,4vw,2.8rem);
+    line-height:1.25; color:var(--cream);
+  }
+  .about-wrap .big-quote .accent{color:var(--accent);}
+  .timeline{border-left:1px solid var(--line); padding-left:32px; display:flex; flex-direction:column; gap:36px;}
+  .timeline .step{position:relative;}
+  .timeline .step::before{
+    content:''; position:absolute; left:-37px; top:6px; width:11px; height:11px;
+    border-radius:50%; background:var(--bg); border:2px solid var(--accent);
+  }
+  .timeline .step .yr{font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--accent); margin-bottom:6px; display:block;}
+  .timeline .step h4{font-family:'Bebas Neue',sans-serif; font-size:1.4rem; margin-bottom:6px; letter-spacing:.02em;}
+  .timeline .step p{color:var(--gray); font-size:0.92rem; line-height:1.6; max-width:480px;}
+
+  /* ===== Contact ===== */
+  .contact{
+    background:var(--bg-soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    text-align:center; padding:120px 32px;
+  }
+  .contact .section-tag{justify-content:center; display:block; text-align:center;}
+  .contact h2{
+    font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,10vw,7rem);
+    letter-spacing:0.01em; line-height:1; margin:16px 0 40px;
+  }
+  .contact h2 span{color:var(--accent);}
+  .contact-actions{display:flex; gap:20px; justify-content:center; flex-wrap:wrap;}
+  .btn{
+    font-family:'JetBrains Mono',monospace; font-size:0.95rem; letter-spacing:0.05em;
+    padding:18px 36px; border-radius:2px; text-decoration:none;
+    border:1px solid var(--line); color:var(--cream);
+    transition:all .25s; display:inline-flex; align-items:center; gap:10px;
+  }
+  .btn.primary{background:var(--accent); color:var(--bg); border-color:var(--accent); font-weight:600;}
+  .btn.primary:hover{background:var(--cream); border-color:var(--cream);}
+  .btn:not(.primary):hover{border-color:var(--cream); color:var(--cream);}
+
+  footer{
+    padding:32px; display:flex; justify-content:space-between; align-items:center;
+    font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--gray);
+    flex-wrap:wrap; gap:12px;
+  }
+
+  @media (max-width:860px){
+    .services{grid-template-columns:1fr;}
+    .gallery{grid-template-columns:repeat(2,1fr);}
+    .gallery .item.wide{grid-column:span 2;}
+    .about-wrap{grid-template-columns:1fr;}
+    .nav-links{gap:14px;}
+    .nav-links a:not(.cta){display:none;}
+    .hero-meta{gap:28px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">JP<span>·</span>DESIGN</div>
+  <nav class="nav-links">
+    <a href="#servicos">Serviços</a>
+    <a href="#video">Vídeo</a>
+    <a href="#design">Design</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#contato" class="cta">Falar agora</a>
+  </nav>
+</div>
+
+<section class="hero">
+  <div class="hero-eyebrow">REC · DISPONÍVEL PARA NOVOS PROJETOS</div>
+  <h1>EDIÇÃO &amp;<br><span class="outline">DESIGN</span> QUE<br>CONVERTE.</h1>
+  <p class="hero-sub">
+    Sou <strong>João Pedro</strong> — desde os 13 anos editando vídeo com olhar de criador de conteúdo,
+    hoje aplico essa experiência em <strong>edição de vídeo</strong> e <strong>design gráfico</strong>
+    para marcas e negócios que querem se destacar no feed.
+  </p>
+  <div class="hero-meta">
+    <div>DESDE<span class="val">2013</span></div>
+    <div>FOCO<span class="val">VÍDEO + ARTES</span></div>
+    <div>BASE<span class="val">MACEIÓ, AL</span></div>
+  </div>
+  <div class="scroll-hint"><div class="line"></div>SCROLL</div>
+</section>
+
+<section id="servicos">
+  <div class="section-head">
+    <div>
+      <span class="section-tag">// O QUE EU FAÇO</span>
+      <h2>Serviços</h2>
+    </div>
+    <p>Dois pilares, um único objetivo: sua marca com aparência profissional e consistente.</p>
+  </div>
+  <div class="services">
+    <div class="service">
+      <span class="num">01 / EDIÇÃO</span>
+      <h3>Edição de Vídeo</h3>
+      <p>Cortes dinâmicos, ritmo pensado para retenção, color grading e timelapses — do bruto ao pronto para postar.</p>
+      <div class="tags"><span>Reels / Shorts</span><span>Timelapse</span><span>Color Grade</span><span>Motion básico</span></div>
+    </div>
+    <div class="service">
+      <span class="num">02 / DESIGN</span>
+      <h3>Design Gráfico</h3>
+      <p>Posts, cardápios, logos e artes promocionais com identidade visual consistente — pensados para parar o scroll.</p>
+      <div class="tags"><span>Posts / Feed</span><span>Cardápios</span><span>Logotipos</span><span>Identidade Visual</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="video">
+  <div class="section-head">
+    <div>
+      <span class="section-tag">// SHOWREEL</span>
+      <h2>Vídeo em ação</h2>
+    </div>
+    <p>Timelapse de construção editado com cortes ritmados e transições limpas.</p>
+  </div>
+  <div class="reel-grid">
+    <div class="reel">
+      <video src="assets/timelapsegym.mp4" controls preload="metadata" playsinline></video>
+      <div class="reel-frame">
+        <div class="corner"><span>00:00:00:00</span><span>JP·DESIGN</span></div>
+        <div class="corner"><span>1080×1920</span><span>● REC</span></div>
+      </div>
+    </div>
+    <div class="reel">
+      <video src="assets/brvd.mp4" controls preload="metadata" playsinline></video>
+      <div class="reel-frame">
+        <div class="corner"><span>00:00:00:00</span><span>JP·DESIGN</span></div>
+        <div class="corner"><span>720p</span><span>● REC</span></div>
+      </div>
+    </div>
+    <div class="reel">
+      <video src="assets/jpvd.mp4" controls preload="metadata" playsinline></video>
+      <div class="reel-frame">
+        <div class="corner"><span>00:00:00:00</span><span>JP·DESIGN</span></div>
+        <div class="corner"><span>720p</span><span>● REC</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="reel-caption">Timelapse de reforma de academia e edições de vídeo com cortes ritmados, transições limpas e color grading.</p>
+</section>
+
+<section id="design">
+  <div class="section-head">
+    <div>
+      <span class="section-tag">// PORTFÓLIO</span>
+      <h2>Artes & Identidade Visual</h2>
+    </div>
+    <p>Uma seleção de posts, logotipos e materiais promocionais criados para diferentes marcas.</p>
+  </div>
+  <div class="gallery">
+    <div class="item"><img src="assets/pngdetalhes.png" alt="Post sobre identidade visual e sofisticação"><div class="label">Post · Identidade Visual</div></div>
+    <div class="item"><img src="assets/unhas1.png" alt="Post Unhas Luxo - FoxStudiio"><div class="label">Post · FoxStudiio</div></div>
+    <div class="item"><img src="assets/logodilma.png" alt="Logo Dilma da Pamonha"><div class="label">Logo · Dilma da Pamonha</div></div>
+    <div class="item"><img src="assets/cdpdilma.png" alt="Cardápio Dilma da Pamonha"><div class="label">Cardápio · Dilma da Pamonha</div></div>
+    <div class="item"><img src="assets/ciclo7.png" alt="Post promocional Ciclo 07"><div class="label">Post Promocional · Ciclo 07</div></div>
+    <div class="item"><img src="assets/ciclo8.png" alt="Post promocional Ciclo 8 - Giu"><div class="label">Post Promocional · Giu</div></div>
+  </div>
+</section>
+
+<section id="sobre">
+  <div class="section-head">
+    <div>
+      <span class="section-tag">// SOBRE MIM</span>
+      <h2>De criador a designer</h2>
+    </div>
+  </div>
+  <div class="about-wrap">
+    <div class="about-left">
+      <img class="portrait" src="assets/jpfoto.png" alt="João Pedro, fundador da JP·DESIGN">
+      <div class="big-quote">
+        "Tudo começou aos <span class="accent">13 anos</span>, editando vídeo pra ser youtuber. Hoje, essa mesma curiosidade virou <span class="accent">profissão</span>."
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="step">
+        <span class="yr">PASSO 01</span>
+        <h4>A curiosidade</h4>
+        <p>Comecei editando vídeos sozinho, testando cortes, efeitos e ritmo — pura prática movida pela vontade de criar conteúdo.</p>
+      </div>
+      <div class="step">
+        <span class="yr">PASSO 02</span>
+        <h4>A expansão</h4>
+        <p>A edição de vídeo abriu espaço para o design gráfico: posts, artes promocionais e identidade visual para marcas reais.</p>
+      </div>
+      <div class="step">
+        <span class="yr">PASSO 03</span>
+        <h4>Hoje</h4>
+        <p>Ofereço os dois serviços de forma integrada — vídeo e design trabalhando juntos pela mesma identidade visual.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contato">
+  <span class="section-tag">// VAMOS CONVERSAR</span>
+  <h2>Bora criar algo<br><span>incrível</span> juntos?</h2>
+  <div class="contact-actions">
+    <a class="btn primary" href="https://wa.me/5582999602446" target="_blank" rel="noopener">WhatsApp · (82) 99960-2446</a>
+    <a class="btn" href="https://www.instagram.com/jpedro__d/" target="_blank" rel="noopener">Instagram · @jpedro__d</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 JP·DESIGN — João Pedro</span>
+  <span>Maceió, AL · Edição & Design Gráfico</span>
+</footer>
+
+</body>
+</html>
